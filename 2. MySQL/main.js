@@ -1,5 +1,3 @@
-//pm2 start main.js --watch --ignore-watch="data/*" --no-daemon
-
 var http = require('http');
 var fs = require('fs');
 var url = require('url');
@@ -7,7 +5,6 @@ var qs = require('querystring');
 var template = require('./lib/template.js');
 var path = require('path');
 var sanitizeHtml = require('sanitize-html');
-
 
 var app = http.createServer(function(request,response){
     var _url = request.url;
@@ -30,18 +27,20 @@ var app = http.createServer(function(request,response){
         fs.readdir('./data', function(error, filelist){
           var filteredId = path.parse(queryData.id).base;
           fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
-            var sanitizedTitle = sanitizeHtml(filteredId);
-            var sanitizedDescription = sanitizeHtml(description,{
-              allowedTags:['h1','h2','h3','a']
+            var title = queryData.id;
+            var sanitizedTitle = sanitizeHtml(title);
+            var sanitizedDescription = sanitizeHtml(description, {
+              allowedTags:['h1']
             });
             var list = template.list(filelist);
             var html = template.HTML(sanitizedTitle, list,
               `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
-              `<a href="/create">create</a> <a href="/update?id=${sanitizedTitle}">update</a>
-               <form action="delete_process" method="post">
-                <input type="hidden" name="id" value="${sanitizedTitle}"/>
-                <input type="submit" value="delete" style="background:none;border:none;font-size:16px;text-decoration:underline;text-decoration-color:purple;color:purple;cursor:pointer;"/>
-               </form>`
+              ` <a href="/create">create</a>
+                <a href="/update?id=${sanitizedTitle}">update</a>
+                <form action="delete_process" method="post">
+                  <input type="hidden" name="id" value="${sanitizedTitle}">
+                  <input type="submit" value="delete">
+                </form>`
             );
             response.writeHead(200);
             response.end(html);
@@ -69,7 +68,7 @@ var app = http.createServer(function(request,response){
     } else if(pathname === '/create_process'){
       var body = '';
       request.on('data', function(data){
-          body += data;
+          body = body + data;
       });
       request.on('end', function(){
           var post = qs.parse(body);
@@ -108,28 +107,24 @@ var app = http.createServer(function(request,response){
     } else if(pathname === '/update_process'){
       var body = '';
       request.on('data', function(data){
-          body += data;
+          body = body + data;
       });
       request.on('end', function(){
           var post = qs.parse(body);
           var id = post.id;
           var title = post.title;
           var description = post.description;
-          var filteredId = path.parse(id).base;
-          var filteredDes = path.parse(description).base;
-          var filteredTitle = path.parse(title).base;
-          fs.rename(`data/${filteredId}`, `data/${filteredTitle}`, function(error){
-            fs.writeFile(`data/${filteredTitle}`, filteredDes, 'utf8', function(err){
-              response.writeHead(302, {Location: `/?id=${filteredTitle}`});
+          fs.rename(`data/${id}`, `data/${title}`, function(error){
+            fs.writeFile(`data/${title}`, description, 'utf8', function(err){
+              response.writeHead(302, {Location: `/?id=${title}`});
               response.end();
             })
           });
       });
-    }
-    else if(pathname === '/delete_process'){
+    } else if(pathname === '/delete_process'){
       var body = '';
       request.on('data', function(data){
-          body += data;
+          body = body + data;
       });
       request.on('end', function(){
           var post = qs.parse(body);
@@ -138,10 +133,9 @@ var app = http.createServer(function(request,response){
           fs.unlink(`data/${filteredId}`, function(error){
             response.writeHead(302, {Location: `/`});
             response.end();
-          });
+          })
       });
-    }
-    else {
+    } else {
       response.writeHead(404);
       response.end('Not found');
     }
