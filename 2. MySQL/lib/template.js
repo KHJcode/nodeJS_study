@@ -15,14 +15,14 @@ module.exports = {
     </body>
     </html>
     `;
-  },list:function(filelist){
+  },list:function(topics){
     var list = '<ul>';
     var i = 0;
-    while(i < filelist.length){
-      list = list + `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`;
-      i = i + 1;
+    while(i < topics.length){
+      list += `<li><a href="/?id=${topics[i].id}">${topics[i].title}</a></li>`;
+      i++;
     }
-    list = list+'</ul>';
+    list += '</ul>';
     return list;
   }
 }
