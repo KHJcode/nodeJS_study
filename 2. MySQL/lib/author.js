@@ -1,7 +1,8 @@
 var db = require('./db'),
     url = require('url'),
     qs = require('querystring'),
-    template = require('./template');
+    template = require('./template'),
+    sanitizeHtml = require('sanitize-html');
 
 exports.home = function(request,response){
     db.query(`SELECT * FROM topic`, function(error,topics){
@@ -82,10 +83,10 @@ exports.update = function(request,response){
                         <input type="hidden" name="id" value="${queryData.id}">
                     </p>
                     <p>
-                        <input type="text" name="name" value="${author[0].name}" placeholder="name">
+                        <input type="text" name="name" value="${sanitizeHtml(author[0].name)}" placeholder="name">
                     </p>
                     <p>
-                        <textarea name="profile" placeholder="description">${author[0].profile}</textarea>
+                        <textarea name="profile" placeholder="description">${sanitizeHtml(author[0].profile)}</textarea>
                     </p>
                     <p>
                         <input type="submit" value="update">
@@ -116,6 +117,32 @@ exports.update_process = function(request, response){
             }
             response.writeHead(302, {Location: `/author`});
             response.end();
+        });
+    });
+}
+
+exports.delete_process = function(request, response){
+    var body = '';
+    request.on('data', function(data){
+        body += data;
+    });
+    request.on('end', function(){
+        var post = qs.parse(body);
+        db.query(`DELETE FROM topic WHERE author_id=?`,
+        [post.id],
+        function(error1,result1){
+            if(error1){
+                throw error1;
+            }
+            db.query(`DELETE FROM author WHERE id=?`,
+            [post.id],
+            function(error2, result2){
+                if(error2){
+                    throw error2;
+                }
+                response.writeHead(302, {Location: `/author`});
+                response.end();      
+            });
         });
     });
 }

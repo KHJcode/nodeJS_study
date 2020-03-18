@@ -1,9 +1,6 @@
 //pm2 start main.js --watch --ignore-watch="data/*" --no-daemon
 var http = require('http'),
   url = require('url'),
-  qs = require('querystring'),
-  template = require('./lib/template'),
-  db = require('./lib/db'),
   topic = require('./lib/topic'),
   author = require('./lib/author');
 
@@ -35,6 +32,8 @@ var app = http.createServer(function(request,response){
         author.update(request,response);
     } else if(pathname === '/author/update_process'){
         author.update_process(request,response);
+    } else if(pathname === '/author/delete_process'){
+        author.delete_process(request,response);
     }
     else {
       response.writeHead(404);
