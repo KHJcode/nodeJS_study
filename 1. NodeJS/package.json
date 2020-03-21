@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KHJcode/ndoeJS_study.git"
+    "url": "git+https://github.com/KHJcode/nodeJS_study.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/KHJcode/ndoeJS_study/issues"
+    "url": "https://github.com/KHJcode/nodeJS_study/issues"
   },
-  "homepage": "https://github.com/KHJcode/ndoeJS_study#readme",
+  "homepage": "https://github.com/KHJcode/nodeJS_study#readme",
   "dependencies": {
     "sanitize-html": "^1.22.0"
   }

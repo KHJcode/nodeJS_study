@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/web-n/Nodejs.git"
+    "url": "git+https://github.com/KHJcode/nodeJS_study.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/web-n/Nodejs/issues"
+    "url": "git+https://github.com/KHJcode/nodeJS_study.git"
   },
-  "homepage": "https://github.com/web-n/Nodejs#readme",
+  "homepage": "https://github.com/KHJcode/nodeJS_study#readme",
   "dependencies": {
     "mysql": "^2.18.1",
     "sanitize-html": "^1.18.2"
