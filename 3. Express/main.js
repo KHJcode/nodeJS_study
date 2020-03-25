@@ -7,7 +7,8 @@ const express = require('express'),
   bodyParser = require('body-parser'),
   compression = require('compression'),
   app = express();
- 
+
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(compression());
 app.get('*', (request, response, next) => { 
@@ -22,31 +23,38 @@ app.get('/', (request,response) => {
     var description = 'Hello, Node.js';
     var list = template.list(request.list);
     var html = template.HTML(title, list,
-      `<h2>${title}</h2>${description}`,
+      `<h2>${title}</h2>${description}
+       <img src="/images/hello.jpg" style="width:300px;height:200px;display:block;margin-top:15px;"/>
+       <p>Photo by David Dvořáček on Unsplash</p>
+       `,
       `<a href="/create">create</a>`
     );
     response.send(html);
 });
 
-app.get('/page/:pageId', (request, response) => { 
+app.get('/page/:pageId', (request, response, next) => { 
   var filteredId = path.parse(request.params.pageId).base;
   fs.readFile(`data/${filteredId}`, 'utf8', (err, description) => {
-    var title = request.params.pageId;
-    var sanitizedTitle = sanitizeHtml(title);
-    var sanitizedDescription = sanitizeHtml(description, {
+    if(err){
+      next(err);
+    } else {
+      var title = request.params.pageId;
+      var sanitizedTitle = sanitizeHtml(title);
+      var sanitizedDescription = sanitizeHtml(description, {
       allowedTags:['h1']
-    });
-    var list = template.list(request.list);
-    var html = template.HTML(sanitizedTitle, list,
-      `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
-      ` <a href="/create">create</a>
-        <a href="/update/${sanitizedTitle}">update</a>
-        <form action="/delete" method="post">
-          <input type="hidden" name="id" value="${sanitizedTitle}">
-          <input type="submit" value="delete">
-        </form>`
-    );
-    response.send(html);
+      });
+      var list = template.list(request.list);
+      var html = template.HTML(sanitizedTitle, list,
+        `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
+        ` <a href="/create">create</a>
+          <a href="/update/${sanitizedTitle}">update</a>
+          <form action="/delete" method="post">
+            <input type="hidden" name="id" value="${sanitizedTitle}">
+            <input type="submit" value="delete">
+          </form>`
+      );
+      response.send(html);
+    }
   });
 });
 
@@ -124,6 +132,11 @@ app.post('/delete', (request,response) => {
 
 app.use((request,response,next) => {
   response.status(404).send("Sorry, cannot find this page.");
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
 });
 
 app.listen(3000, () => console.log('Example app listening on port 3000!'));
