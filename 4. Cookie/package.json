@@ -10,20 +10,16 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/KHJcode/nodeJS_study.git"
+    "type": "",
+    "url": ""
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/KHJcode/nodeJS_study/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/KHJcode/nodeJS_study#readme",
+  "homepage": "",
   "dependencies": {
-    "body-parser": "^1.19.0",
-    "compression": "^1.7.4",
-    "express": "^4.17.1",
-    "helmet": "^3.22.0",
     "sanitize-html": "^1.18.2"
   }
 }

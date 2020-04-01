@@ -3,9 +3,11 @@ const express = require('express'),
   fs = require('fs'),
   bodyParser = require('body-parser'),
   compression = require('compression'),
+  helmet = require('helmet'),
   indexRouter = require('./routes/index'),
   topicRouter = require('./routes/topic');
 
+app.use(helmet());
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(compression());
