@@ -10,15 +10,15 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "",
-    "url": ""
+    "type": "git",
+    "url": "git+https://github.com/KHJcode/nodeJS_study.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/KHJcode/nodeJS_study/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/KHJcode/nodeJS_study#readme",
   "dependencies": {
     "cookie": "^0.4.0",
     "sanitize-html": "^1.18.2"
