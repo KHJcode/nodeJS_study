@@ -1,5 +1,6 @@
 var express = require('express'),
     template = require('../lib/template'),
+    auth = require('../lib/auth'),
     router = express.Router();
 
 router.get('/', (request,response) => {
@@ -11,7 +12,8 @@ router.get('/', (request,response) => {
         <img src="/images/hello.jpg" style="width:300px;height:200px;display:block;margin-top:15px;"/>
         <p>Photo by David Dvořáček on Unsplash</p>
         `,
-        `<a href="/topic/create">create</a>`
+        `<a href="/topic/create">create</a>`,
+        auth.statusUI(response, request)
     );
      response.send(html);
 });

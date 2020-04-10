@@ -3,9 +3,14 @@
     fs = require('fs'),
     sanitizeHtml = require('sanitize-html'),
     template = require('../lib/template'),
+    auth = require('../lib/auth'),
     router = express.Router();
 
   router.get('/create', (request, response) => {
+    if (auth.isOwner(request,response)) {
+      response.redirect('/');
+      return false;
+    }
     var title = 'WEB - Create';
     var list = template.list(request.list);
     var html = template.HTML(title, list, `
@@ -18,11 +23,15 @@
           <input type="submit">
         </p>
       </form>
-    `, '');
+    `, '', auth.statusUI(response, request));
     response.send(html);
   });
   
   router.post('/create_process', (request,response) => {
+    if (auth.isOwner(request,response)) {
+      response.redirect('/');
+      return false;
+    }
     var post = request.body;
     var title = post.title;
     var description = post.description;
@@ -38,6 +47,10 @@
   });
   
   router.get('/update/:pageId', function(request,response){
+    if (auth.isOwner(request,response)) {
+      response.redirect('/');
+      return false;
+    }
     var filteredId = path.parse(request.params.pageId).base;
     fs.readFile(`data/${filteredId}`, 'utf8', (err, description) => {
       var title = request.params.pageId;
@@ -55,13 +68,18 @@
           </p>
         </form>
         `,
-        `<a href="/topic/create">create</a> <a href="/topic/update/${title}">update</a>`
+        `<a href="/topic/create">create</a> <a href="/topic/update/${title}">update</a>`,
+        auth.statusUI(response, request)
       );
       response.send(html);
     });
   });
   
   router.post('/update_process', (request, response) => {
+    if (auth.isOwner(request,response)) {
+      response.redirect('/');
+      return false;
+    }
     var post = request.body;
     var id = post.id;
     var title = post.title;
@@ -80,6 +98,10 @@
   });
   
   router.post('/delete_process', (request,response) => {
+    if (auth.isOwner(request,response)) {
+      response.redirect('/');
+      return false;
+    }
     var post = request.body;
     var id = post.id;
     var filteredId = path.parse(id).base;
@@ -107,7 +129,8 @@
             <form action="/topic/delete_process" method="post">
               <input type="hidden" name="id" value="${sanitizedTitle}">
               <input type="submit" value="delete">
-            </form>`
+            </form>`,
+            auth.statusUI(response, request)
         );
         response.send(html);
       }
