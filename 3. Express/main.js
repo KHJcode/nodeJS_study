@@ -16,12 +16,23 @@ app.use(bodyParser.urlencoded({ extended: false}));
 app.use(compression());
 app.use(session({
   HttpOnly: true, // JS를 통해서는 세션 쿠키를 사용할 수 없도록 강제함.
-  secure: true, // https 에서만 세션 정보를 주고 받을 수 있도록 처리.
+  //secure: true, // https 에서만 세션 정보를 주고 받을 수 있도록 처리.
   secret: 'dfsdfasfasdfdfefs',
   resave: false,
   saveUninitialized: true,
   store: new FileStore()
 }));
+
+const passport = require('passport'),
+  LocalStrategy = require('passport-local').Strategy;
+app.post('/auth/login_process',
+  passport.authenticate('local', { 
+    successRedirect: '/',
+    failureRedirect: '/auth/login' 
+  }));
+
+
+
 
 app.get('*', (request, response, next) => { 
   fs.readdir('./data', (error, filelist) => {
