@@ -5,14 +5,8 @@ var express = require('express'),
     template = require('../lib/template'),
     router = express.Router();
 
-var authData = {
-    email:'khj0000@gmail.com',
-    password:'0000',
-    nickname:'khj'
-}
-
 router.get('/login', (request, response) => {
-    var title = 'WEB - Login';
+    var title = 'Login';
     var list = template.list(request.list);
     var html = template.HTML(title, list, `
       <form action="/auth/login_process" method="post">

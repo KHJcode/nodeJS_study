@@ -25,13 +25,58 @@ app.use(session({
 
 const passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy;
+
+var authData = {
+  email:'khj0000@gmail.com',
+  password:'0000',
+  nickname:'khj'
+}
+
+app.use(passport.initialize());
+app.use(passport.session()); // passport 에서 session 을 쓰겠다고 선언.
+
+passport.serializeUser((user, done) => {
+  console.log('serializeUser',user);
+  done(null, user.email); // 식별자를 줌.
+});
+
+passport.deserializeUser((id, done) => {  // 저장소에서 사용자의 실제 데이터를 가져옴.
+  console.log('deserializeUser',id); // id 값으로 ( 식별자 ) 사용자의 정보를 조회.
+  done(null, authData);
+});
+
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+  },
+  (username, password, done) => {
+    console.log('LocalStrategy', username, password);
+    if (username === authData.email) {
+      console.log(1);
+      if (password === authData.password) {
+        console.log(2);
+        return done(null, authData);
+      } else {
+        console.log(3);
+        return done(null, false, {
+          message: 'Incorrect password'
+        });
+      }
+    } else {
+      console.log(4);
+      return done(null, false, {
+        message: 'Incorrect username'
+      });
+    }
+  }
+));
+
+
 app.post('/auth/login_process',
   passport.authenticate('local', { 
     successRedirect: '/',
     failureRedirect: '/auth/login' 
   }));
-
-
 
 
 app.get('*', (request, response, next) => { 
