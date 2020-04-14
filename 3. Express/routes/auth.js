@@ -1,14 +1,19 @@
 var express = require('express'),
-    path = require('path'),
-    fs = require('fs'),
-    sanitizeHtml = require('sanitize-html'),
     template = require('../lib/template'),
     router = express.Router();
 
-router.get('/login', (request, response) => {
+module.exports = function (passport) {
+  router.get('/login', (request, response) => {
+    var fmsg = request.flash(),
+      feedback  = '';
+    if (fmsg.error) {
+      feedback = fmsg.error[0];
+    }
+    console.log(fmsg);
     var title = 'Login';
     var list = template.list(request.list);
     var html = template.HTML(title, list, `
+      <div style="color:red;">${feedback}</div>
       <form action="/auth/login_process" method="post">
         <p><input type="text" name="email" placeholder="email"></p>
         <p><input type="password" name="password" placeholder="password"></p>
@@ -18,27 +23,24 @@ router.get('/login', (request, response) => {
       </form>
     `, '');
     response.send(html);
-});
-/*
-router.post('/login_process', (request,response) => {
-    var post = request.body;
-    var email = post.email;
-    var password = post.password;
-    if (email === authData.email && password === authData.password) {
-        request.session.is_logined = true;
-        request.session.nickname = authData.nickname;
-        request.session.save(() => {
-          response.redirect('/');
-        });
-    } else {
-        response.send('Who?');
-    }
   });
-*/
-router.get('/logout', (request, response) => {
-  request.session.destroy((err) => {
+  
+  router.post('/login_process',
+    passport.authenticate('local', { 
+      successRedirect: '/',
+      failureRedirect: '/auth/login',
+      failureFlash: true
+  }));
+  
+  router.get('/logout', (request, response) => {
+    request.logout();/*
+    request.session.destroy((err) => {
+      response.redirect('/');
+    });
+    */
+    request.session.save(() => {  // 새로운 정보를 세션에 저장.
     response.redirect('/');
+   });
   });
-});
-
-module.exports = router;
+  return router;
+}
