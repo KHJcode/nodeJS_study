@@ -4,7 +4,12 @@ if (process.env.NODE_ENV !== 'production') {
 
 const express = require('express'),
     app = express(),
-    PORT = process.env.PORT || 3000;
+    PORT = process.env.PORT || 3000,
+    { User } = require('./models/User'),
+    bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE_URL, {
@@ -15,6 +20,16 @@ mongoose.connect(process.env.DATABASE_URL, {
     
 app.get('/',(req, res) => {
     res.send('Hello nodeapp!');
+});
+
+app.post('/register', (req, res) => {
+
+    const user = new User(req.body);
+
+    user.save((err, userInfo) => {
+        if (err) return res.json({ success: false, err});
+        return res.status(200).json({ success: ture });
+    });
 });
 
 app.listen(PORT);
