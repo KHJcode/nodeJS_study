@@ -1,0 +1,25 @@
+{
+  "name": "tutorial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "devSt": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KHJcode/nodeJS_study.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KHJcode/nodeJS_study/issues"
+  },
+  "homepage": "https://github.com/KHJcode/nodeJS_study#readme",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.10"
+  }
+}
