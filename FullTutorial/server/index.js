@@ -4,12 +4,12 @@ if (process.env.NODE_ENV !== 'production') {
 
 const express = require('express'),
     app = express(),
-    PORT = process.env.PORT || 3000,
-    { User } = require('./models/User'),
+    PORT = process.env.PORT || 5000,
+    { User } = require('../models/User'),
     { auth } = require('./middleware/auth'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser');
- 
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -63,7 +63,7 @@ app.get('/api/users/auth', auth, (req, res) => {
     //인증완료 -> 클라이언트에 정보 전달.
     res.status(200).json({
         _id: req.user._id,
-        isAdmin: req.user.role === 0? false : true,
+        isAdmin: req.user.role === 0 ? false : true,
         isAuth: true,
         email: req.user.email,
         name: req.user.name,
