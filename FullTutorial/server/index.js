@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express'),
     app = express(),
     PORT = process.env.PORT || 5000,
-    { User } = require('../models/User'),
+    { User } = require('./models/User'),
     { auth } = require('./middleware/auth'),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser');
@@ -20,9 +20,12 @@ mongoose.connect(process.env.DATABASE_URL, {
 }).then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err));
 
-    
 app.get('/',(req, res) => {
     res.send('Hello nodeapp!');
+});
+
+app.get('/api/hello', (req, res) => {
+    res.send("서버와 통신 성공 ~ ");
 });
 
 app.post('/api/users/register', (req, res) => {
