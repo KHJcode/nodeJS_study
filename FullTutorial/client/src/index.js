@@ -5,7 +5,7 @@ import App from './App';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import 'antd/dist/antd.css';
-import { applyMiddleware } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
 import Reducer from './_reducers';
@@ -17,10 +17,10 @@ ReactDOM.render(
     store={createStoreWithMiddleware(Reducer,
       window._REDUX_DEVTOOLS_EXTENSION__ &&
       window._REDUX_DEVTOOLS_EXTENSION__()
-    )}
-  >
+    )}>
     <App/>
   </Provider>
+  ,document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
