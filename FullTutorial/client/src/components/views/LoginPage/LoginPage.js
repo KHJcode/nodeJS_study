@@ -48,7 +48,7 @@ function LoginPage(props) {
         <label>Password</label>
         <input type="password" value={Password} onChange={onPasswordHandler} />
         <br/>
-        <button type="submit">Login</button>
+        <button type="submit">로그인</button>
       </form>
     </div>
   );
