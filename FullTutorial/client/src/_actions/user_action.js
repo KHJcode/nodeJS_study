@@ -22,7 +22,7 @@ export function registerUser(dataToSubmit){
 }
 
 export function auth(dataToSubmit){
-    const request = Axios.get('/api/users/register')
+    const request = Axios.get('/api/users/auth')
         .then(response => response.data);
     return {
         type: AUTH_USER,
