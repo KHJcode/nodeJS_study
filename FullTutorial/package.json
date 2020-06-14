@@ -16,7 +16,7 @@
     "url": "https://github.com/KHJcode/nodeJS_study/issues"
   },
   "homepage": "https://github.com/KHJcode/nodeJS_study#readme",
-  "author": "",
+  "author": "Jhon Ahn",
   "license": "ISC",
   "dependencies": {
     "antd": "^4.1.5",
