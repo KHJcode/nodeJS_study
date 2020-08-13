@@ -7,7 +7,8 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon express-session.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,12 @@
     "body-parser": "^1.18.3",
     "compression": "^1.7.2",
     "express": "^4.16.3",
+    "express-session": "^1.17.1",
     "helmet": "^3.12.1",
-    "sanitize-html": "^1.18.2"
+    "sanitize-html": "^1.18.2",
+    "session-file-store": "^1.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
