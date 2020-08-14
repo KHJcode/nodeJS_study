@@ -1,15 +1,13 @@
-var express = require('express');
-var router = express.Router();
-var path = require('path');
-var fs = require('fs');
-var sanitizeHtml = require('sanitize-html');
-var template = require('../lib/template.js');
+const express = require('express');
+const router = express.Router();
+const template = require('../lib/template');
+const authData = require('../config/authData');
 
-router.get('/login', function(request, response){
-  var title = 'WEB - Login';
-  var list = template.list(request.list);
-  var html = template.HTML(title, list, `
-    <form action="/auth/login_process" method="post">
+router.get('/login', (request, response) => {
+  const title = 'WEB - Login';
+  const list = template.list(request.list);
+  const html = template.HTML(title, list, `
+    <form action="/auth/login_process" method="POST">
       <h2>Login</h2>
       <p><input type="text" name="email" placeholder="email"></p>
       <p><input type="password" name="password" placeholder="password"></p>
@@ -19,85 +17,20 @@ router.get('/login', function(request, response){
   response.send(html);
 });
 
-/*
-  
-  router.post('/create_process', function(request, response){
-    var post = request.body;
-    var title = post.title;
-    var description = post.description;
-    fs.writeFile(`data/${title}`, description, 'utf8', function(err){
-      response.redirect(`/topic/${title}`);
-    });
-  });
-  
-  router.get('/update/:pageId', function(request, response){
-    var filteredId = path.parse(request.params.pageId).base;
-    fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
-      var title = request.params.pageId;
-      var list = template.list(request.list);
-      var html = template.HTML(title, list,
-        `
-        <form action="/topic/update_process" method="post">
-          <input type="hidden" name="id" value="${title}">
-          <p><input type="text" name="title" placeholder="title" value="${title}"></p>
-          <p>
-            <textarea name="description" placeholder="description">${description}</textarea>
-          </p>
-          <p>
-            <input type="submit">
-          </p>
-        </form>
-        `,
-        `<a href="/topic/create">create</a> <a href="/topic/update/${title}">update</a>`
-      );
-      response.send(html);
-    });
-  });
-  
-  router.post('/update_process', function(request, response){
-    var post = request.body;
-    var id = post.id;
-    var title = post.title;
-    var description = post.description;
-    fs.rename(`data/${id}`, `data/${title}`, function(error){
-      fs.writeFile(`data/${title}`, description, 'utf8', function(err){
-        response.redirect(`/topic/${title}`);
-      })
-    });
-  });
-  
-  router.post('/delete_process', function(request, response){
-    var post = request.body;
-    var id = post.id;
-    var filteredId = path.parse(id).base;
-    fs.unlink(`data/${filteredId}`, function(error){
-      response.redirect('/');
-    });
-  });
-  
-  router.get('/:pageId', function(request, response, next) { 
-    var filteredId = path.parse(request.params.pageId).base;
-    fs.readFile(`data/${filteredId}`, 'utf8', function(err, description){
-      if(err){
-        next(err);
-      } else {
-        var title = request.params.pageId;
-        var sanitizedTitle = sanitizeHtml(title);
-        var sanitizedDescription = sanitizeHtml(description, {
-          allowedTags:['h1']
-        });
-        var list = template.list(request.list);
-        var html = template.HTML(sanitizedTitle, list,
-          `<h2>${sanitizedTitle}</h2>${sanitizedDescription}`,
-          ` <a href="/topic/create">create</a>
-            <a href="/topic/update/${sanitizedTitle}">update</a>
-            <form action="/topic/delete_process" method="post">
-              <input type="hidden" name="id" value="${sanitizedTitle}">
-              <input type="submit" value="delete">
-            </form>`
-        );
-        response.send(html);
-      }
-    });
-  });*/
-  module.exports = router;
+router.post('/login_process', (req, res) => {
+  const body = req.body;
+  const email = body.email;
+  const password = body.password;
+  if (email === authData.email && password === authData.password) {
+    req.session.is_logined = true;
+    req.session.nickname = authData.nickname;
+    req.session.save(() => res.redirect('/'));
+  }
+  else {
+    res.send('Who?');
+  }
+});
+
+router.get('/logout', (req, res) => req.session.destroy(err => res.redirect('/')));
+
+module.exports = router;
