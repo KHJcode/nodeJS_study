@@ -4,6 +4,7 @@ const template = require('../lib/template.js');
 const authStatusUI = require('../lib/loginCheck');
 
 router.get('/', (req, res) => {
+  console.log('/', req.user);
   const title = 'Welcome';
   const description = 'Hello, Node.js';
   const list = template.list(req.list);
