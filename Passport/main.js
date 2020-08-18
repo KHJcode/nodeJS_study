@@ -6,11 +6,7 @@ const compression = require('compression');
 const helmet = require('helmet');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
-const authData = require('./config/authData');
-
-const indexRouter = require('./routes/index');
-const topicRouter = require('./routes/topic');
-const authRouter = require('./routes/auth');
+const flash = require('connect-flash');
 
 app.use(helmet());
 app.use(express.static('public'));
@@ -23,55 +19,13 @@ app.use(session({
   saveUninitialized: true,
   store: new FileStore()
 }));
+app.use(flash());
 
-const passport = require('passport'),
-  LocalStrategy = require('passport-local').Strategy;
+const passport = require('./lib/passport')(app);
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.serializeUser((user, done) => {
-  console.log('serializeUser', user);
-  done(null, user.email); // 식별자 값이 세션 데이터로 감.
-});
-
-passport.deserializeUser((id, done) => {
-  // id 의 값은 세션에 저장된 식별자의 값
-  console.log('deserializeUser', id);
-  // id 값으로 사용자를 식별해서 사용자 데이터를 조회 및 제공.
-  done(null, authData); // 이 예제에서는 조회 없이 그냥 제공.
-});
-
-passport.use(new LocalStrategy(
-  {
-    usernameField: 'email',
-    passwordField: 'password',
-  },
-  (username, password, done) => {
-    console.log('passport', username, password);
-    if (username === authData.email) {
-      console.log(1);
-      if (password === authData.password)  {
-        console.log(2);
-        return done(null, authData);
-      } else {
-        console.log(3);
-        return done(null, false, { message : 'Incorrect user password' });
-      }
-    } else {
-      console.log(4);
-      return done(null, false, { message : 'Incorrect user email.' });
-    }
-  }
-))
-
-app.post('/auth/login_process',
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/auth/login',
-  })
-);
-
+const indexRouter = require('./routes/index');
+const topicRouter = require('./routes/topic');
+const authRouter = require('./routes/auth')(passport);
 
 app.get('*', (request, response, next) => {
   fs.readdir('./data', (error, filelist) => {

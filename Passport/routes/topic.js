@@ -7,7 +7,7 @@ const template = require('../lib/template.js');
 const authStatusUI = require('../lib/loginCheck');
 
 function notLoginUserPass(req, res, next) {
-  if (req.session.is_logined) next();
+  if (req.user) next();
   else res.redirect('/');
 }
 
@@ -88,6 +88,7 @@ router.get('/:pageId', (request, response, next) => {
     if(err){
       next(err);
     } else {
+      const UI = authStatusUI(request);
       const title = request.params.pageId;
       const sanitizedTitle = sanitizeHtml(title);
       const sanitizedDescription = sanitizeHtml(description, {
@@ -102,7 +103,7 @@ router.get('/:pageId', (request, response, next) => {
             <input type="hidden" name="id" value="${sanitizedTitle}">
             <input type="submit" value="delete">
           </form>`,
-        authStatusUI(request)
+        UI
       );
       response.send(html);
     }
