@@ -8,7 +8,7 @@ module.exports = passport => {
     const title = 'WEB - Login';
     const list = template.list(request.list);
     const html = template.HTML(title, list, `
-      <h1>${fmsg.error ? fmsg.error[0] : '' }</h1>
+      <h1 style='color:red'>${fmsg.error ? fmsg.error[0] : '' }</h1>
       <form action="/auth/login_process" method="POST">
         <h2>Login</h2>
         <p><input type="text" name="email" placeholder="email"></p>
@@ -32,6 +32,6 @@ module.exports = passport => {
     req.logout();
     req.session.save(() => res.redirect('/'));
   });
-  
+
   return router;
 }
