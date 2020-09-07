@@ -41,24 +41,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="889b4ec7-8e21-4163-8cb8-c00d51906d03" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/TypeScript.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lecture/back/config/config.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lecture/back/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lecture/back/models/comment.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lecture/back/models/hashtag.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lecture/back/models/image.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lecture/back/models/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lecture/back/models/post.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lecture/back/models/sequelize.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lecture/back/models/user.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lecture/back/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lecture/back/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lecture/back/passport/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lecture/back/passport/local.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lecture/back/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Passport/routes/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Passport/routes/auth.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -81,7 +63,7 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../Project/status 200" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.TypeScript" />
     <property name="ts.external.directory.path" value="D:\Practice\Web 개발\Web Backend\nodeJS 공부\TypeScript\lecture\back\node_modules\typescript\lib" />
@@ -95,7 +77,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1599387185419</updated>
-      <workItem from="1599387186936" duration="14435000" />
+      <workItem from="1599387186936" duration="14632000" />
     </task>
     <servers />
   </component>
@@ -126,6 +108,10 @@
       <screen x="1920" y="0" width="1920" height="1030" />
     </state>
     <state x="2647" y="320" key="#com.intellij.fileTypes.FileTypeChooser/1920.0.1920.1030/0.0.1536.824@1920.0.1920.1030" timestamp="1599400129993" />
+    <state x="2660" y="274" key="FileChooserDialogImpl" timestamp="1599407247320">
+      <screen x="1920" y="0" width="1920" height="1030" />
+    </state>
+    <state x="2660" y="274" key="FileChooserDialogImpl/1920.0.1920.1030/0.0.1536.824@1920.0.1920.1030" timestamp="1599407247320" />
     <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1599390113145">
       <screen x="1920" y="0" width="1920" height="1030" />
     </state>
